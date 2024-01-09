@@ -21,11 +21,12 @@ $done = $task->DONE();
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <title>Gestion</title>
 </head>
 
-<body class="relative bg-green-50 overflow-hidden max-h-screen">
-  <header class="bg-white-50 md:fixed md:right-0 md:top-0 md:left-0 md:px-4 md:h-16">
+<body class="bg-green-50">
+<header class="fixed right-0 top-0 left-100 bg-green-50 py-3 px-4 h-16">    
     <div class="max-w-4xl mx-auto">
       <div class="flex items-center justify-between">
 
@@ -78,43 +79,58 @@ $done = $task->DONE();
           <h1 class="text-3xl font-bold mb-10 text-center">It brings us joy to see you here on your account.</h1>
 
           <hr class="my-10">
-          <div class="flex justify-center items-center">
 
-            <h2 class="text-2xl font-bold mb-4">Statistics</h2>
-          </div>
-          <div class="grid grid-cols-2 gap-x-20">
-            <div class="flex justify-center items-center">
-
-              <div class="grid grid-cols-2 gap-4">
-                <div class="col-span-2">
-                  <div class="p-4 bg-green-100 rounded-xl">
-                    <div class="font-bold text-3xl text-gray-800 leading-none">Hello! <?php echo $_SESSION['nom'] ?></div>
-                    <div class="mt-5">
-                      <a href="projects.php">
-                        <button type="button" class="inline-flex items-center justify-center py-2 px-3 rounded-xl bg-white text-gray-800 hover:text-green-500 text-sm font-semibold transition">
-                          View projects
-                        </button>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-span-2">
-                  <div class="p-4 bg-yellow-100 rounded-xl text-gray-800">
-
-                    <div class="font-bold text-2xl leading-none"><?php echo $numtask ?> Tasks</div>
-                    <div class="mt-2">Tasks finished in all projects</div>
-                  </div>
-                </div>
-                <div class="col-span-2">
-                  <div class="p-4 bg-purple-100 rounded-xl text-gray-800">
-                    <div class="font-bold text-xl leading-none">Your projects</div>
-                    <div class="mt-2"><?php echo $numpro ?> Projects</div>
-                  </div>
-                </div>
-              </div>
+          <canvas id="tasksChart" width="400" height="200"></canvas>
+          
+        <!-- Cards for different statistics -->
+        <div class="grid grid-cols-1 gap-4 mt-8">
+          <div class="p-4 bg-blue-100 rounded-xl flex flex-col items-center justify-center">
+            <div class="font-bold text-3xl text-gray-800 leading-none">Hello! <?php echo $_SESSION['nom'] ?></div>
+            <div class="mt-5">
+              <a href="projects.php">
+                <button type="button" class="inline-flex items-center justify-center py-2 px-3 rounded-xl bg-white text-gray-800 hover:text-green-500 text-sm font-semibold transition">
+                  View projects
+                </button>
+              </a>
             </div>
-
           </div>
+          <div class="p-4 bg-red-100 rounded-xl text-gray-800">
+            <div class="font-bold text-2xl leading-none"><?php echo $numtask ?> Tasks</div>
+            <div class="mt-2">Tasks finished in all projects</div>
+          </div>
+          <div class="p-4 bg-yellow-100 rounded-xl text-gray-800">
+            <div class="font-bold text-xl leading-none">All projects</div>
+            <div class="mt-2"><?php echo $numpro ?> Projects</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Chart.js for Tasks Finished
+    var ctx = document.getElementById('tasksChart').getContext('2d');
+    var tasksChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Tasks Finished'],
+        datasets: [{
+          label: 'Number of Tasks',
+          data: [<?php echo $numtask; ?>],
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  </script>
         </div>
       </div>
     </div>

@@ -2,7 +2,7 @@
 require_once('../controller/usercontroller.php');
 require_once('../controller/taskcontroller.php');
 
-$user = new usercontroller();
+$user = new usercontroller(); // Creates a new instance of the TaskController class
 $user->isLoggedIn();
 $user->logout();
 $task = new taskcontroller();
@@ -28,7 +28,7 @@ $task->DeleteTasks();
 </head>
 
 <body class="bg-green-50">
-    <header class="fixed right-0 top-0 left-80 bg-green-50 py-3 px-4 h-16">
+    <header class="fixed right-0 top-0 left-100 bg-green-50 py-3 px-4 h-16">
     </header>
     <div class="flex flex-col md:flex-row">
         <aside class="md:inset-y-0 md:left-0 md:bg-white md:shadow-md md:h-screen md:w-60">
@@ -148,7 +148,7 @@ $task->DeleteTasks();
                     <input type="search" id="taskSearchInput" class="block w-60 p-2 ps-5 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-yellow-500 focus:border-yellow-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-yellow-500 dark:focus:border-yellow-500" placeholder="Search..." required>
                 </div>
                 
-                <div class="flex items-center w-40 bg-green-100 border-2 border-white hover:bg-green-200 focus:ring-2 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm py-2 px-6 text-center dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-yellow-800">
+                <!-- <div class="flex items-center w-40 bg-green-100 border-2 border-white hover:bg-green-200 focus:ring-2 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm py-2 px-6 text-center dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-yellow-800">
 
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
@@ -158,19 +158,19 @@ $task->DeleteTasks();
                             Add multiple
                         </button>
                     </a>
-                </div>
+                </div> -->
 
             </div>
 
             <div id="taskSearchResults" class="flex flex-col md:flex-row flex-grow justify-end w-90 px-10 mt-14 md:space-x-10 overflow-auto">
                 <div class="flex flex-col flex-shrink-0 w-72">
                     <div class="flex items-center flex-shrink-0 h-10 px-2">
-                        <span class="block text-sm font-semibold">to do</span>
+                        <span class="block text-sm font-semibold">To-Do</span>
                         <span class="flex items-center justify-center w-5 h-5 ml-2 text-sm font-semibold text-indigo-500 bg-white rounded bg-opacity-30"><?php echo $res['todoCount'] ?></span>
                     </div>
                     <div class="flex flex-col pb-2 overflow-auto">
-                        <?php foreach ($tasks as $t) :
-                            if ($t->getStatut() === 'to do') {
+                        <?php foreach ($tasks as $task) :
+                            if ($task->getStatut() === 'to do') {
                         ?>
                                 <div class="relative flex flex-col items-start p-4 mt-3 bg-white rounded-lg cursor-pointer bg-opacity-90 group hover:bg-opacity-100" draggable="true">
                                     <button class="absolute top-0 right-0 flex items-center justify-center hidden w-5 h-5 mt-3 mr-2 text-gray-500 rounded hover:bg-gray-200 hover:text-gray-700 group-hover:flex">
@@ -178,39 +178,39 @@ $task->DeleteTasks();
                                             <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
                                         </svg>
                                     </button>
-                                    <span class="flex items-center h-6 px-3 text-xs font-semibold text-pink-500 bg-pink-100 rounded-full"> <?php echo $t->getNomta(); ?> </span>
+                                    <span class="flex items-center h-6 px-3 text-xs font-semibold text-pink-500 bg-pink-100 rounded-full"> <?php echo $task->getNomta(); ?> </span>
                                     <h4 class="mt-3 text-sm font-medium">
-                                        <?php echo $t->getDescta(); ?>
+                                        <?php echo $task->getDescta(); ?>
                                     </h4>
                                     <div class="flex justify-between items-center w-full mt-3 text-xs font-medium text-gray-400">
                                         <div class="flex items-center text-green-500">
                                             <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                                 <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
                                             </svg>
-                                            <span class="ml-1 leading-none"><?php echo date('d M', strtotime($t->getDatedeb())); ?></span>
+                                            <span class="ml-1 leading-none"><?php echo date('d M', strtotime($task->getDatedeb())); ?></span>
                                         </div>
 
                                         <div class="relative flex items-center text-red-500">
                                             <svg class="relative w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM13 7h-2v5l4.25 2.55.75-1.23-3.5-2.07z" />
                                             </svg>
-                                            <?php echo date('d M', strtotime($t->getDatefin())); ?>
+                                            <?php echo date('d M', strtotime($task->getDatefin())); ?>
                                             <span class="ml-1 leading-none"></span>
                                         </div>
 
 
                                         <div class="flex items-center gap-6">
-                                            <a href="#" title="Edit" class="editTaskButton" data-task-Id="<?php echo $t->getIdta(); ?>" data-task-Nom="<?php echo $t->getNomta(); ?>" data-task-Desc="<?php echo $t->getDescta(); ?>" data-task-Datedeb="<?php echo $t->getDatedeb(); ?>" data-task-Datefin="<?php echo $t->getDatefin(); ?>" data-task-Statut="<?php echo $t->getStatut(); ?>" data-modal-target="authentication-modal" data-modal-toggle="authentication-modal">
+                                            <a href="#" title="Edit" class="editTaskButton" data-task-Id="<?php echo $task->getIdta(); ?>" data-task-Nom="<?php echo $task->getNomta(); ?>" data-task-Desc="<?php echo $task->getDescta(); ?>" data-task-Datedeb="<?php echo $task->getDatedeb(); ?>" data-task-Datefin="<?php echo $task->getDatefin(); ?>" data-task-Statut="<?php echo $task->getStatut(); ?>" data-modal-target="authentication-modal" data-modal-toggle="authentication-modal">
                                                 <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.-->
-                                                    <path opacity="1" fill="#2766d3" d="M441 58.9L453.1 71c9.4 9.4 9.4 24.6 0 33.9L424 134.1 377.9 88 407 58.9c9.4-9.4 24.6-9.4 33.9 0zM209.8 256.2L344 121.9 390.1 168 255.8 302.2c-2.9 2.9-6.5 5-10.4 6.1l-58.5 16.7 16.7-58.5c1.1-3.9 3.2-7.5 6.1-10.4zM373.1 25L175.8 222.2c-8.7 8.7-15 19.4-18.3 31.1l-28.6 100c-2.4 8.4-.1 17.4 6.1 23.6s15.2 8.5 23.6 6.1l100-28.6c11.8-3.4 22.5-9.7 31.1-18.3L487 138.9c28.1-28.1 28.1-73.7 0-101.8L474.9 25C446.8-3.1 401.2-3.1 373.1 25zM88 64C39.4 64 0 103.4 0 152V424c0 48.6 39.4 88 88 88H360c48.6 0 88-39.4 88-88V312c0-13.3-10.7-24-24-24s-24 10.7-24 24V424c0 22.1-17.9 40-40 40H88c-22.1 0-40-17.9-40-40V152c0-22.1 17.9-40 40-40H200c13.3 0 24-10.7 24-24s-10.7-24-24-24H88z" />
+                                                    <path opacity="1" fill="#ffff00" d="M441 58.9L453.1 71c9.4 9.4 9.4 24.6 0 33.9L424 134.1 377.9 88 407 58.9c9.4-9.4 24.6-9.4 33.9 0zM209.8 256.2L344 121.9 390.1 168 255.8 302.2c-2.9 2.9-6.5 5-10.4 6.1l-58.5 16.7 16.7-58.5c1.1-3.9 3.2-7.5 6.1-10.4zM373.1 25L175.8 222.2c-8.7 8.7-15 19.4-18.3 31.1l-28.6 100c-2.4 8.4-.1 17.4 6.1 23.6s15.2 8.5 23.6 6.1l100-28.6c11.8-3.4 22.5-9.7 31.1-18.3L487 138.9c28.1-28.1 28.1-73.7 0-101.8L474.9 25C446.8-3.1 401.2-3.1 373.1 25zM88 64C39.4 64 0 103.4 0 152V424c0 48.6 39.4 88 88 88H360c48.6 0 88-39.4 88-88V312c0-13.3-10.7-24-24-24s-24 10.7-24 24V424c0 22.1-17.9 40-40 40H88c-22.1 0-40-17.9-40-40V152c0-22.1 17.9-40 40-40H200c13.3 0 24-10.7 24-24s-10.7-24-24-24H88z" />
                                                 </svg>
                                             </a>
-                                            <a title="Archive" href="tasks.php?archivetask&idta=<?php echo $t->getIdta(); ?>&idpro=<?php echo $_GET['idpro']; ?>">
+                                            <a title="Archive" href="tasks.php?archivetask&idta=<?php echo $task->getIdta(); ?>&idpro=<?php echo $_GET['idpro']; ?>">
                                                 <svg class='h-5 w-5 text-gray-500' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
                                                     <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 4H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-2m-4-1v8m0 0l3-3m-3 3L9 8m-5 5h2.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293h3.172a1 1 0 00.707-.293l2.414-2.414a1 1 0 01.707-.293H20' />
                                                 </svg>
                                             </a>
-                                            <a title="delete" href="tasks.php?deletetask&idta=<?php echo $t->getIdta(); ?>&idpro=<?php echo $_GET['idpro']; ?>">
+                                            <a title="delete" href="tasks.php?deletetask&idta=<?php echo $task->getIdta(); ?>&idpro=<?php echo $_GET['idpro']; ?>">
                                                 <svg xmlns="http://www.w3.org/2000/svg" height="16" width="14" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.-->
                                                     <path fill="#e6321e" d="M170.5 51.6L151.5 80h145l-19-28.4c-1.5-2.2-4-3.6-6.7-3.6H177.1c-2.7 0-5.2 1.3-6.7 3.6zm147-26.6L354.2 80H368h48 8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-8V432c0 44.2-35.8 80-80 80H112c-44.2 0-80-35.8-80-80V128H24c-13.3 0-24-10.7-24-24S10.7 80 24 80h8H80 93.8l36.7-55.1C140.9 9.4 158.4 0 177.1 0h93.7c18.7 0 36.2 9.4 46.6 24.9zM80 128V432c0 17.7 14.3 32 32 32H336c17.7 0 32-14.3 32-32V128H80zm80 64V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16z" />
                                                 </svg>
@@ -232,8 +232,8 @@ $task->DeleteTasks();
                         <span class="flex items-center justify-center w-5 h-5 ml-2 text-sm font-semibold text-indigo-500 bg-white rounded bg-opacity-30"><?php echo $res['doingCount'] ?></span>
                     </div>
                     <div class="flex flex-col pb-2 overflow-auto">
-                        <?php foreach ($tasks as $t) :
-                            if ($t->getStatut() === 'doing') {
+                        <?php foreach ($tasks as $task) :
+                            if ($task->getStatut() === 'doing') {
                         ?>
 
                                 <div class="relative flex flex-col items-start p-4 mt-3 bg-white rounded-lg cursor-pointer bg-opacity-90 group hover:bg-opacity-100" draggable="true">
@@ -242,36 +242,36 @@ $task->DeleteTasks();
                                             <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
                                         </svg>
                                     </button>
-                                    <span class="flex items-center h-6 px-3 text-xs font-semibold text-yellow-500 bg-yellow-100 rounded-full"><?php echo $t->getNomta(); ?></span>
-                                    <h4 class="mt-3 text-sm font-medium"> <?php echo $t->getDescta(); ?>
+                                    <span class="flex items-center h-6 px-3 text-xs font-semibold text-yellow-500 bg-yellow-100 rounded-full"><?php echo $task->getNomta(); ?></span>
+                                    <h4 class="mt-3 text-sm font-medium"> <?php echo $task->getDescta(); ?>
                                     </h4>
                                     <div class="flex justify-between items-center w-full mt-3 text-xs font-medium text-gray-400">
                                         <div class="flex items-center text-green-500">
                                             <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                                 <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
                                             </svg>
-                                            <span class="ml-1 leading-none"><?php echo date('d M', strtotime($t->getDatedeb())); ?></span>
+                                            <span class="ml-1 leading-none"><?php echo date('d M', strtotime($task->getDatedeb())); ?></span>
                                         </div>
 
                                         <div class="relative flex items-center text-red-500">
                                             <svg class="relative w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM13 7h-2v5l4.25 2.55.75-1.23-3.5-2.07z" />
                                             </svg>
-                                            <?php echo date('d M', strtotime($t->getDatefin())); ?>
+                                            <?php echo date('d M', strtotime($task->getDatefin())); ?>
                                             <span class="ml-1 leading-none"></span>
                                         </div>
                                         <div class="flex items-center gap-6">
-                                            <a href="#" title="Edit" class="editTaskButton" data-task-Id="<?php echo $t->getIdta(); ?>" data-task-Nom="<?php echo $t->getNomta(); ?>" data-task-Desc="<?php echo $t->getDescta(); ?>" data-task-Datedeb="<?php echo $t->getDatedeb(); ?>" data-task-Datefin="<?php echo $t->getDatefin(); ?>" data-task-Statut="<?php echo $t->getStatut(); ?>" data-modal-target="authentication-modal" data-modal-toggle="authentication-modal">
+                                            <a href="#" title="Edit" class="editTaskButton" data-task-Id="<?php echo $task->getIdta(); ?>" data-task-Nom="<?php echo $task->getNomta(); ?>" data-task-Desc="<?php echo $task->getDescta(); ?>" data-task-Datedeb="<?php echo $task->getDatedeb(); ?>" data-task-Datefin="<?php echo $task->getDatefin(); ?>" data-task-Statut="<?php echo $task->getStatut(); ?>" data-modal-target="authentication-modal" data-modal-toggle="authentication-modal">
                                                 <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.-->
-                                                    <path opacity="1" fill="#2766d3" d="M441 58.9L453.1 71c9.4 9.4 9.4 24.6 0 33.9L424 134.1 377.9 88 407 58.9c9.4-9.4 24.6-9.4 33.9 0zM209.8 256.2L344 121.9 390.1 168 255.8 302.2c-2.9 2.9-6.5 5-10.4 6.1l-58.5 16.7 16.7-58.5c1.1-3.9 3.2-7.5 6.1-10.4zM373.1 25L175.8 222.2c-8.7 8.7-15 19.4-18.3 31.1l-28.6 100c-2.4 8.4-.1 17.4 6.1 23.6s15.2 8.5 23.6 6.1l100-28.6c11.8-3.4 22.5-9.7 31.1-18.3L487 138.9c28.1-28.1 28.1-73.7 0-101.8L474.9 25C446.8-3.1 401.2-3.1 373.1 25zM88 64C39.4 64 0 103.4 0 152V424c0 48.6 39.4 88 88 88H360c48.6 0 88-39.4 88-88V312c0-13.3-10.7-24-24-24s-24 10.7-24 24V424c0 22.1-17.9 40-40 40H88c-22.1 0-40-17.9-40-40V152c0-22.1 17.9-40 40-40H200c13.3 0 24-10.7 24-24s-10.7-24-24-24H88z" />
+                                                    <path opacity="1" fill="#ffff00" d="M441 58.9L453.1 71c9.4 9.4 9.4 24.6 0 33.9L424 134.1 377.9 88 407 58.9c9.4-9.4 24.6-9.4 33.9 0zM209.8 256.2L344 121.9 390.1 168 255.8 302.2c-2.9 2.9-6.5 5-10.4 6.1l-58.5 16.7 16.7-58.5c1.1-3.9 3.2-7.5 6.1-10.4zM373.1 25L175.8 222.2c-8.7 8.7-15 19.4-18.3 31.1l-28.6 100c-2.4 8.4-.1 17.4 6.1 23.6s15.2 8.5 23.6 6.1l100-28.6c11.8-3.4 22.5-9.7 31.1-18.3L487 138.9c28.1-28.1 28.1-73.7 0-101.8L474.9 25C446.8-3.1 401.2-3.1 373.1 25zM88 64C39.4 64 0 103.4 0 152V424c0 48.6 39.4 88 88 88H360c48.6 0 88-39.4 88-88V312c0-13.3-10.7-24-24-24s-24 10.7-24 24V424c0 22.1-17.9 40-40 40H88c-22.1 0-40-17.9-40-40V152c0-22.1 17.9-40 40-40H200c13.3 0 24-10.7 24-24s-10.7-24-24-24H88z" />
                                                 </svg>
                                             </a>
-                                            <a title="Archive" href="tasks.php?archivetask&idta=<?php echo $t->getIdta(); ?>&idpro=<?php echo $_GET['idpro']; ?>">
+                                            <a title="Archive" href="tasks.php?archivetask&idta=<?php echo $task->getIdta(); ?>&idpro=<?php echo $_GET['idpro']; ?>">
                                                 <svg class='h-5 w-5 text-gray-500' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
                                                     <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 4H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-2m-4-1v8m0 0l3-3m-3 3L9 8m-5 5h2.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293h3.172a1 1 0 00.707-.293l2.414-2.414a1 1 0 01.707-.293H20' />
                                                 </svg>
                                             </a>
-                                            <a title="delete" href="tasks.php?deletetask&idta=<?php echo $t->getIdta(); ?>&idpro=<?php echo $_GET['idpro']; ?>">
+                                            <a title="delete" href="tasks.php?deletetask&idta=<?php echo $task->getIdta(); ?>&idpro=<?php echo $_GET['idpro']; ?>">
                                                 <svg xmlns="http://www.w3.org/2000/svg" height="16" width="14" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.-->
                                                     <path fill="#e6321e" d="M170.5 51.6L151.5 80h145l-19-28.4c-1.5-2.2-4-3.6-6.7-3.6H177.1c-2.7 0-5.2 1.3-6.7 3.6zm147-26.6L354.2 80H368h48 8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-8V432c0 44.2-35.8 80-80 80H112c-44.2 0-80-35.8-80-80V128H24c-13.3 0-24-10.7-24-24S10.7 80 24 80h8H80 93.8l36.7-55.1C140.9 9.4 158.4 0 177.1 0h93.7c18.7 0 36.2 9.4 46.6 24.9zM80 128V432c0 17.7 14.3 32 32 32H336c17.7 0 32-14.3 32-32V128H80zm80 64V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16z" />
                                                 </svg>
@@ -292,8 +292,8 @@ $task->DeleteTasks();
                         <span class="flex items-center justify-center w-5 h-5 ml-2 text-sm font-semibold text-indigo-500 bg-white rounded bg-opacity-30"><?php echo $res['doneCount'] ?></span>
                     </div>
                     <div class="flex flex-col pb-2 overflow-auto">
-                        <?php foreach ($tasks as $t) :
-                            if ($t->getStatut() === 'done') {
+                        <?php foreach ($tasks as $task) :
+                            if ($task->getStatut() === 'done') {
 
                         ?>
 
@@ -303,36 +303,36 @@ $task->DeleteTasks();
                                             <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
                                         </svg>
                                     </button>
-                                    <span class="flex items-center h-6 px-3 text-xs font-semibold text-green-500 bg-green-100 rounded-full"><?php echo $t->getNomta(); ?></span>
-                                    <h4 class="mt-3 text-sm font-medium"> <?php echo $t->getDescta(); ?>
+                                    <span class="flex items-center h-6 px-3 text-xs font-semibold text-green-500 bg-green-100 rounded-full"><?php echo $task->getNomta(); ?></span>
+                                    <h4 class="mt-3 text-sm font-medium"> <?php echo $task->getDescta(); ?>
                                     </h4>
                                     <div class="flex justify-between items-center w-full mt-3 text-xs font-medium text-gray-400">
                                         <div class="flex items-center text-green-500">
                                             <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                                 <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
                                             </svg>
-                                            <span class="ml-1 leading-none"><?php echo date('d M', strtotime($t->getDatedeb())); ?></span>
+                                            <span class="ml-1 leading-none"><?php echo date('d M', strtotime($task->getDatedeb())); ?></span>
                                         </div>
 
                                         <div class="relative flex items-center text-red-500">
                                             <svg class="relative w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM13 7h-2v5l4.25 2.55.75-1.23-3.5-2.07z" />
                                             </svg>
-                                            <?php echo date('d M', strtotime($t->getDatefin())); ?>
+                                            <?php echo date('d M', strtotime($task->getDatefin())); ?>
                                             <span class="ml-1 leading-none"></span>
                                         </div>
                                         <div class="flex items-center gap-6">
-                                            <a href="#" title="Edit" class="editTaskButton" data-task-Id="<?php echo $t->getIdta(); ?>" data-task-Nom="<?php echo $t->getNomta(); ?>" data-task-Desc="<?php echo $t->getDescta(); ?>" data-task-Datedeb="<?php echo $t->getDatedeb(); ?>" data-task-Datefin="<?php echo $t->getDatefin(); ?>" data-task-Statut="<?php echo $t->getStatut(); ?>" data-modal-target="authentication-modal" data-modal-toggle="authentication-modal">
+                                            <a href="#" title="Edit" class="editTaskButton" data-task-Id="<?php echo $task->getIdta(); ?>" data-task-Nom="<?php echo $task->getNomta(); ?>" data-task-Desc="<?php echo $task->getDescta(); ?>" data-task-Datedeb="<?php echo $task->getDatedeb(); ?>" data-task-Datefin="<?php echo $task->getDatefin(); ?>" data-task-Statut="<?php echo $task->getStatut(); ?>" data-modal-target="authentication-modal" data-modal-toggle="authentication-modal">
                                                 <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.-->
-                                                    <path opacity="1" fill="#2766d3" d="M441 58.9L453.1 71c9.4 9.4 9.4 24.6 0 33.9L424 134.1 377.9 88 407 58.9c9.4-9.4 24.6-9.4 33.9 0zM209.8 256.2L344 121.9 390.1 168 255.8 302.2c-2.9 2.9-6.5 5-10.4 6.1l-58.5 16.7 16.7-58.5c1.1-3.9 3.2-7.5 6.1-10.4zM373.1 25L175.8 222.2c-8.7 8.7-15 19.4-18.3 31.1l-28.6 100c-2.4 8.4-.1 17.4 6.1 23.6s15.2 8.5 23.6 6.1l100-28.6c11.8-3.4 22.5-9.7 31.1-18.3L487 138.9c28.1-28.1 28.1-73.7 0-101.8L474.9 25C446.8-3.1 401.2-3.1 373.1 25zM88 64C39.4 64 0 103.4 0 152V424c0 48.6 39.4 88 88 88H360c48.6 0 88-39.4 88-88V312c0-13.3-10.7-24-24-24s-24 10.7-24 24V424c0 22.1-17.9 40-40 40H88c-22.1 0-40-17.9-40-40V152c0-22.1 17.9-40 40-40H200c13.3 0 24-10.7 24-24s-10.7-24-24-24H88z" />
+                                                    <path opacity="1" fill="#ffff00" d="M441 58.9L453.1 71c9.4 9.4 9.4 24.6 0 33.9L424 134.1 377.9 88 407 58.9c9.4-9.4 24.6-9.4 33.9 0zM209.8 256.2L344 121.9 390.1 168 255.8 302.2c-2.9 2.9-6.5 5-10.4 6.1l-58.5 16.7 16.7-58.5c1.1-3.9 3.2-7.5 6.1-10.4zM373.1 25L175.8 222.2c-8.7 8.7-15 19.4-18.3 31.1l-28.6 100c-2.4 8.4-.1 17.4 6.1 23.6s15.2 8.5 23.6 6.1l100-28.6c11.8-3.4 22.5-9.7 31.1-18.3L487 138.9c28.1-28.1 28.1-73.7 0-101.8L474.9 25C446.8-3.1 401.2-3.1 373.1 25zM88 64C39.4 64 0 103.4 0 152V424c0 48.6 39.4 88 88 88H360c48.6 0 88-39.4 88-88V312c0-13.3-10.7-24-24-24s-24 10.7-24 24V424c0 22.1-17.9 40-40 40H88c-22.1 0-40-17.9-40-40V152c0-22.1 17.9-40 40-40H200c13.3 0 24-10.7 24-24s-10.7-24-24-24H88z" />
                                                 </svg>
                                             </a>
-                                            <a title="Archive" href="tasks.php?archivetask&idta=<?php echo $t->getIdta(); ?>&idpro=<?php echo $_GET['idpro']; ?>">
+                                            <a title="Archive" href="tasks.php?archivetask&idta=<?php echo $task->getIdta(); ?>&idpro=<?php echo $_GET['idpro']; ?>">
                                                 <svg class='h-5 w-5 text-gray-500' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
                                                     <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 4H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-2m-4-1v8m0 0l3-3m-3 3L9 8m-5 5h2.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293h3.172a1 1 0 00.707-.293l2.414-2.414a1 1 0 01.707-.293H20' />
                                                 </svg>
                                            </a>
-                                            <a title="delete" href="tasks.php?deletetask&idta=<?php echo $t->getIdta(); ?>&idpro=<?php echo $_GET['idpro']; ?>">
+                                            <a title="delete" href="tasks.php?deletetask&idta=<?php echo $task->getIdta(); ?>&idpro=<?php echo $_GET['idpro']; ?>">
                                                 <svg xmlns="http://www.w3.org/2000/svg" height="16" width="14" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.-->
                                                     <path fill="#e6321e" d="M170.5 51.6L151.5 80h145l-19-28.4c-1.5-2.2-4-3.6-6.7-3.6H177.1c-2.7 0-5.2 1.3-6.7 3.6zm147-26.6L354.2 80H368h48 8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-8V432c0 44.2-35.8 80-80 80H112c-44.2 0-80-35.8-80-80V128H24c-13.3 0-24-10.7-24-24S10.7 80 24 80h8H80 93.8l36.7-55.1C140.9 9.4 158.4 0 177.1 0h93.7c18.7 0 36.2 9.4 46.6 24.9zM80 128V432c0 17.7 14.3 32 32 32H336c17.7 0 32-14.3 32-32V128H80zm80 64V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16z" />
                                                 </svg>
@@ -402,7 +402,7 @@ $task->DeleteTasks();
 
                             </div>
 
-                            <button type="submit" name="edittask" class="inline-flex items-center bg-yellow-100 hover:bg-yellow-200 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            <button type="submit" name="edittask" class="inline-flex items-center bg-green-100 hover:bg-green-200 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                 <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path>
                                 </svg>
